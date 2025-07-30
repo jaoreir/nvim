@@ -4,7 +4,7 @@ vim.g.maplocalleader = " "
 local map = require("helpers.keys").map
 
 -- Save
--- map("n", "<C-s>", "<cmd>:w<cr>", "Save Buffer")
+map("n", "<C-s>", "<cmd>:w<cr>", "Save Buffer")
 
 -- Format
 map("n", "<M-S-f>", "<cmd>lua vim.lsp.buf.format()<cr>", "Format Buffer")

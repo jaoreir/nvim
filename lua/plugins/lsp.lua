@@ -3,8 +3,8 @@ return {
 	{
 		"neovim/nvim-lspconfig",
 		dependencies = {
-			-- "williamboman/mason.nvim", -- installer for LSPs, formatters etc
-			-- "williamboman/mason-lspconfig.nvim", -- mason + lspconfig
+			"williamboman/mason.nvim", -- installer for LSPs, formatters etc
+			"williamboman/mason-lspconfig.nvim", -- mason + lspconfig
 			{
 				"j-hui/fidget.nvim", -- notification and progress engine (at lower left)
 				tag = "legacy",
@@ -141,11 +141,11 @@ return {
 			local funcs = require("helpers.funcs")
 
 			-- Set up Mason before anything else
-			-- require("mason").setup()
-			-- require("mason-lspconfig").setup({
-			-- 	ensure_installed = funcs.keys(config_list),
-			-- 	automatic_installation = true,
-			-- })
+			require("mason").setup()
+			require("mason-lspconfig").setup({
+				ensure_installed = funcs.keys(config_list),
+				automatic_installation = true,
+			})
 
 			-- Quick access via keymap
 			require("helpers.keys").map("n", "<leader>M", "<cmd>Mason<cr>", "Show Mason")

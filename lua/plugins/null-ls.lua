@@ -3,7 +3,7 @@ return {
 		"jay-babu/mason-null-ls.nvim",
 		event = { "BufReadPre", "BufNewFile" },
 		dependencies = {
-			-- "williamboman/mason.nvim",
+			"williamboman/mason.nvim",
 			"nvimtools/none-ls.nvim",
 		},
 		config = function()
@@ -29,10 +29,10 @@ return {
 				table.insert(ensure_installed, "shellharden")
 			end
 
-			-- require("mason").setup()
-			-- require("mason-null-ls").setup({
-			-- 	ensure_installed = ensure_installed,
-			-- })
+			require("mason").setup()
+			require("mason-null-ls").setup({
+				ensure_installed = ensure_installed,
+			})
 		end,
 	},
 	{

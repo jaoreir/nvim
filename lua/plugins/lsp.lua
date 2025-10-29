@@ -220,21 +220,18 @@ return {
 				lsp_map("<leader>ln", "<cmd>:Navbuddy<cr>", bufnr, "Open Navbuddy")
 			end
 
-			-- Setup each LSP
-			local lspconfig = require("lspconfig")
-
 			-- nvim-cmp supports additional completion capabilities, so broadcast that to servers
 			local capabilities = vim.lsp.protocol.make_client_capabilities()
 			capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
+			-- Setup each LSP
 			local default_config = {
 				on_attach = on_attach,
 				capabilities = capabilities,
 			}
-
-			for k, v in pairs(config_list) do
-				local merged_config = funcs.merge(default_config, v)
-				lspconfig[k].setup(merged_config)
+			for lsp_name, lsp_config in pairs(config_list) do
+				local merged_config = funcs.merge(default_config, lsp_config)
+				vim.lsp.config(lsp_name, merged_config)
 			end
 		end,
 	},

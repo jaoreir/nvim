@@ -104,15 +104,15 @@ return {
 				config_list["ts_ls"] = {}
 			end
 
-			if check.is_dotnet_available() then
-				config_list["csharp_ls"] = {
-					-- csharp decompilation support
-					handlers = {
-						["textDocument/definition"] = require("csharpls_extended").handler,
-						["textDocument/typeDefinition"] = require("csharpls_extended").handler,
-					},
-				}
-			end
+			-- if check.is_dotnet_available() then
+			-- 	config_list["csharp_ls"] = {
+			-- 		-- csharp decompilation support
+			-- 		handlers = {
+			-- 			["textDocument/definition"] = require("csharpls_extended").handler,
+			-- 			["textDocument/typeDefinition"] = require("csharpls_extended").handler,
+			-- 		},
+			-- 	}
+			-- end
 
 			if check.is_go_available() then
 				config_list["gopls"] = {}

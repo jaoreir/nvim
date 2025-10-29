@@ -17,9 +17,9 @@ return {
 				table.insert(ensure_installed, "prettierd")
 			end
 
-			if check.is_dotnet_available() then
-				table.insert(ensure_installed, "csharpier")
-			end
+			-- if check.is_dotnet_available() then
+			-- 	table.insert(ensure_installed, "csharpier")
+			-- end
 
 			if check.is_nix_available() then
 				table.insert(ensure_installed, "nixpkgs_fmt")

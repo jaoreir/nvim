@@ -17,5 +17,6 @@ end
 
 -- Uncomment the colorscheme to use
 local colorscheme = get_if_available('gruvbox')
+-- local colorscheme = get_if_available('everforest')
 
 return colorscheme

@@ -4,4 +4,5 @@ return {
 
 	-- Color schemes
 	"ellisonleao/gruvbox.nvim",
+	"neanias/everforest-nvim",
 }

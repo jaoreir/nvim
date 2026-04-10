@@ -8,109 +8,73 @@ return {
 			}))
 		end,
 		dependencies = {
-			"nvim-treesitter/nvim-treesitter-textobjects",
-			"windwp/nvim-ts-autotag",
+			-- "nvim-treesitter/nvim-treesitter-textobjects",
+			-- "windwp/nvim-ts-autotag",
 		},
 		config = function()
 			require("nvim-treesitter.install").prefer_git = true
-			local ensure_installed = {
+
+			-- Make list of parsers you want to install
+			local file_types = {
 				"lua",
 				"vimdoc",
 				"vim",
 				"bash",
+				"python",
+				"html",
+				"css",
+				"javascript",
 			}
 
 			local check = require("helpers.checks")
 
 			if check.is_c_available() then
-				table.insert(ensure_installed, "c")
-				table.insert(ensure_installed, "cpp")
-			end
-
-			if check.is_python_available() then
-				table.insert(ensure_installed, "python")
+				table.insert(file_types, "c")
+				table.insert(file_types, "cpp")
 			end
 
 			if check.is_npm_available() then
-				table.insert(ensure_installed, "html")
-				table.insert(ensure_installed, "css")
-				table.insert(ensure_installed, "javascript")
-				table.insert(ensure_installed, "typescript")
-				table.insert(ensure_installed, "tsx")
+				table.insert(file_types, "typescript")
+				table.insert(file_types, "tsx")
 			end
 
 			if check.is_dotnet_available() then
-				table.insert(ensure_installed, "c_sharp")
+				table.insert(file_types, "c_sharp")
 			end
 
 			if check.is_go_available() then
-				table.insert(ensure_installed, "go")
+				table.insert(file_types, "go")
 			end
 
 			if check.is_cargo_available() then
-				table.insert(ensure_installed, "rust")
+				table.insert(file_types, "rust")
 			end
 
 			if check.is_nim_available() then
-				table.insert(ensure_installed, "nim")
+				table.insert(file_types, "nim")
 			end
 
-			require("nvim-treesitter.configs").setup({
-				-- Add languages to be installed here that you want installed for treesitter
-				ensure_installed = ensure_installed,
+			if check.is_nix_available() then
+				table.insert(file_types, "nix")
+			end
 
-				autotag = { enable = true },
-				highlight = {
-					enable = true,
-				},
-				indent = {
-					enable = true,
-					disable = { "python" },
-				},
-				incremental_selection = {
-					enable = true,
-					keymaps = {
-						init_selection = "<c-space>",
-						node_incremental = "<c-space>",
-						scope_incremental = "<c-s>",
-						node_decremental = "<c-backspace>",
-					},
-				},
-				textobjects = {
-					select = {
-						enable = true,
-						lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
-						keymaps = {
-							-- You can use the capture groups defined in textobjects.scm
-							["aa"] = "@parameter.outer",
-							["ia"] = "@parameter.inner",
-							["af"] = "@function.outer",
-							["if"] = "@function.inner",
-							["ac"] = "@class.outer",
-							["ic"] = "@class.inner",
-						},
-					},
-					move = {
-						enable = true,
-						set_jumps = true, -- whether to set jumps in the jumplist
-						goto_next_start = {
-							["]m"] = "@function.outer",
-							["]]"] = "@class.outer",
-						},
-						goto_next_end = {
-							["]M"] = "@function.outer",
-							["]["] = "@class.outer",
-						},
-						goto_previous_start = {
-							["[m"] = "@function.outer",
-							["[["] = "@class.outer",
-						},
-						goto_previous_end = {
-							["[M"] = "@function.outer",
-							["[]"] = "@class.outer",
-						},
-					},
-				},
+			-- Install parsers in list
+			require("nvim-treesitter").install(file_types)
+
+			-- Setup treesitter to start on the specific filetypes
+			vim.api.nvim_create_autocmd("FileType", {
+				pattern = file_types,
+				callback = function()
+					-- syntax highlighting, provided by Neovim
+					vim.treesitter.start()
+
+					-- indentation, provided by nvim-treesitter
+					vim.bo.indentexpr = "v:lua.require'nvim-treesitter'.indentexpr()"
+
+					-- -- folds, provided by Neovim (Disabled for now)
+					-- vim.wo.foldexpr = "v:lua.vim.treesitter.foldexpr()"
+					-- vim.wo.foldmethod = "expr"
+				end,
 			})
 		end,
 	},
